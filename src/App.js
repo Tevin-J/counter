@@ -5,36 +5,38 @@ import ButtonsBlock from "./ButtonsBlock";
 
 
 class App extends React.Component {
+
     state = {
         contentNumber: 0,
         min: 0,
         max: 5,
-        isDisabled: false
-    }
+        isIncDisabled: false,
+        isResetDisabled: true
+    };
 
     increaseNumber = () => {
-        /*if (this.state.contentNumber>=this.state.max) {
-            this.state.contentNumber = this.state.max;
-            this.state.isDisabled = true
-        } else {
-            ++this.state.contentNumber;
-            this.state.isDisabled = false
-        }*/
         this.setState({
             contentNumber: ++this.state.contentNumber
+        }, () => {
+            if (this.state.contentNumber>=this.state.max) {
+                this.setState({contentNumber: this.state.max, isIncDisabled: true})
+            } else if (this.state.contentNumber > this.state.min && this.state.contentNumber < this.state.max) {
+                this.setState({isResetDisabled: false, isIncDisabled: false})
+            }
         })
-    }
+    };
+
     resetNumber = () => {
-        /*if (this.state.contentNumber<=this.state.min) {
-            this.state.isDisabled = true
-        } else {
-            this.state.contentNumber = this.state.min;
-            this.state.isDisabled = false
-        }*/
         this.setState({
-            contentNumber: this.state.min
+            contentNumber: this.state.min,
+        }, () => {
+            if (this.state.contentNumber<=this.state.min) {
+                this.setState({isResetDisabled: true, isIncDisabled: false})
+            } else if (this.state.contentNumber > this.state.min && this.state.contentNumber < this.state.max) {
+                this.setState({isResetDisabled: false, isIncDisabled: false})
+            }
         })
-    }
+    };
 
     render = () => {
         return (
@@ -42,7 +44,7 @@ class App extends React.Component {
                 <div className='counter'>
                     <ContentBlock state={this.state}/>
                     <ButtonsBlock increaseNumber={this.increaseNumber} resetNumber={this.resetNumber}
-                                  isDisabled={this.state.isDisabled}/>
+                                  isIncDisabled={this.state.isIncDisabled} isResetDisabled={this.state.isResetDisabled}/>
                 </div>
             </div>
         );

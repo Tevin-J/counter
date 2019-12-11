@@ -9,8 +9,8 @@ class ButtonsBlock extends React.Component {
 
         return (
             <div className='buttonsBlock'>
-                <Button title='inc' callback={this.props.increaseNumber}  isDisabled={this.props.isDisabled}/>
-                <Button title='reset' callback={this.props.resetNumber}  isDisabled={this.props.isDisabled}/>
+                <Button title='inc' callback={this.props.increaseNumber}  isIncDisabled={this.props.isIncDisabled}/>
+                <Button title='reset' callback={this.props.resetNumber}  isResetDisabled={this.props.isResetDisabled}/>
             </div>
         )
 
