@@ -7,7 +7,7 @@ class Button extends React.Component {
         let classForButton = this.props.isIncDisabled || this.props.isResetDisabled ? 'buttonDisabled' : 'button';
         let isDisabledButton = (this.props.isIncDisabled) || (this.props.isResetDisabled);
         return (
-            <button onClick={this.props.callback} className={classForButton} disabled={isDisabledButton}>{this.props.title}</button>
+            <button onClick={this.props.changeNumber} className={classForButton} disabled={isDisabledButton}>{this.props.title}</button>
         )
     }
 }
