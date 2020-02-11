@@ -2,10 +2,10 @@
   width: 100%;
   margin-top: 150px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
-.counter {
-  width: 40%;
+.counterWrapper {
+  width: 380px;
   height:150px;
   display: flex;
   flex-direction: column;

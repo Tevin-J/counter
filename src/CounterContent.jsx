@@ -3,13 +3,21 @@ import style from './App.css';
 
 class CounterContent extends React.Component {
     render = () => {
-        let classForNumber = this.props.contentNumber<=this.props.minNumber ||
-            this.props.contentNumber>=this.props.maxNumber ? 'limit-number' : 'number';
+        let classForNumber = this.props.counterNumber<=this.props.minNumber ||
+            this.props.counterNumber>=this.props.maxNumber ? 'limit-number' : 'number';
+        let output;
+        if (this.props.minNumber>=this.props.maxNumber) {
+            output = 'enter correct values'
+        } else if (this.props.isEditMode) {
+            output = 'enter values and press "set"'
+        } else {
+            output = this.props.counterNumber
 
+        }
         return (
             <div className='contentBlock'>
                 <div className={classForNumber}>
-                    {this.props.contentNumber}
+                    {output}
                 </div>
             </div>
         )
