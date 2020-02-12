@@ -13,14 +13,15 @@ class App extends React.Component {
         counterNumber: 0,
         isIncDisabled: false,
         isResetDisabled: true,
-        isEditMode: false
+        isEditMode: false,
+        error: false
     };
     increaseNumber = () => {
         this.setState({
             counterNumber: ++this.state.counterNumber
         }, () => {
             if (this.state.counterNumber>=this.state.maxNumber) {
-                this.setState({counterNumber: this.state.maxNumber, isIncDisabled: true})
+                this.setState({counterNumber: this.state.maxNumber, isIncDisabled: true, isResetDisabled: false})
             } else if (this.state.counterNumber > this.state.minNumber && this.state.counterNumber < this.state.maxNumber) {
                 this.setState({isResetDisabled: false, isIncDisabled: false})
             }
@@ -39,10 +40,10 @@ class App extends React.Component {
         })
     };
     changeMinValue = (minValue) => {
-        this.setState({minNumber: minValue})
+        this.setValues(minValue, this.state.maxNumber)
     }
     changeMaxValue = (maxValue) => {
-        this.setState({maxNumber: maxValue})
+        this.setValues(this.state.minNumber, maxValue)
     }
     activateEditMode = () => {
         this.setState({isEditMode: true,
@@ -51,15 +52,42 @@ class App extends React.Component {
         })
     }
     deactivateEditMode = () => {
-        this.setState({isEditMode: false,
+        this.setState({isEditMode: false
+            })
+    }
+    setValues = (minValue, maxValue) => {
+        if (minValue < 0 || minValue > maxValue || maxValue <= 0 || maxValue <= minValue) {
+            this.setState({
+                error: true,
+                isIncDisabled: true,
+                isResetDisabled: true
+            })
+        } else {
+            this.setState({
+                isIncDisabled: true,
+                isResetDisabled: true,
+                isEditMode: true,
+                minNumber: minValue,
+                maxNumber: maxValue,
+                counterNumber: minValue,
+                error: false
+            })
+        }
+    }
+    setCounter = () => {
+
+        this.deactivateEditMode();
+        this.setState({
             isIncDisabled: false,
-            isResetDisabled: false})
+            isResetDisabled: true,
+            isEditMode: false
+        })
     }
     render = () => {
         return (
             <div className="app">
                <CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
-                             activateEditMode={this.activateEditMode} deactivateEditMode={this.deactivateEditMode}/>
+                             activateEditMode={this.activateEditMode} setCounter={this.setCounter}/>
                <Counter state={this.state} increaseNumber={this.increaseNumber} resetNumber={this.resetNumber}/>
             </div>
         );

@@ -7,7 +7,7 @@ class Set extends React.Component {
     }
     render = () => {
         return (
-            <Button title={this.state.buttonTitle}/>
+            <Button title={this.state.buttonTitle} changeNumber={this.props.setCounter} isSetDisabled={this.props.error}/>
         )
     }
 }

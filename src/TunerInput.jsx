@@ -10,8 +10,7 @@ class TunerInput extends React.Component {
         return (
             <div className='tunerInput'>
                 {this.props.title}
-                <input value={this.props.value} onChange={this.onValueChanged} onClick={this.props.activateEditMode}
-                onBlur={this.props.deactivateEditMode}/>
+                <input value={this.props.value} onChange={this.onValueChanged} onClick={this.props.activateEditMode}/>
             </div>
         )
     }

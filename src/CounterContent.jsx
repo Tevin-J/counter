@@ -6,13 +6,12 @@ class CounterContent extends React.Component {
         let classForNumber = this.props.counterNumber<=this.props.minNumber ||
             this.props.counterNumber>=this.props.maxNumber ? 'limit-number' : 'number';
         let output;
-        if (this.props.minNumber>=this.props.maxNumber) {
-            output = 'enter correct values'
+        if (this.props.error) {
+            output = 'enter correct values!'
         } else if (this.props.isEditMode) {
             output = 'enter values and press "set"'
         } else {
             output = this.props.counterNumber
-
         }
         return (
             <div className='contentBlock'>

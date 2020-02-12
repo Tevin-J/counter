@@ -9,7 +9,7 @@ class MaxValueTuner extends React.Component {
     render = () => {
         return (
             <TunerInput title={this.state.title} value={this.props.state.maxValue} changeValue={this.props.changeMaxValue}
-                        activateEditMode={this.props.activateEditMode} deactivateEditMode={this.props.deactivateEditMode}/>
+                        activateEditMode={this.props.activateEditMode}/>
         )
     }
 }

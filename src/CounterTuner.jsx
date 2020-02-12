@@ -13,9 +13,8 @@ class CounterTuner extends React.Component {
         return (
                 <div className='counterWrapper'>
                     <TunerContent state={this.props.state} changeMinValue={this.props.changeMinValue}
-                                  changeMaxValue={this.props.changeMaxValue} activateEditMode={this.props.activateEditMode}
-                                  deactivateEditMode={this.props.deactivateEditMode}/>
-                    <TunerButtons/>
+                                  changeMaxValue={this.props.changeMaxValue} activateEditMode={this.props.activateEditMode}/>
+                    <TunerButtons setCounter={this.props.setCounter} error={this.props.state.error}/>
                 </div>
         );
     }

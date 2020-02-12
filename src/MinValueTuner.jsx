@@ -10,7 +10,7 @@ class MinValueTuner extends React.Component {
     render = () => {
         return (
             <TunerInput title={this.state.title} value={this.props.state.minValue} changeValue={this.props.changeMinValue}
-                        activateEditMode={this.props.activateEditMode} deactivateEditMode={this.props.deactivateEditMode}/>
+                        activateEditMode={this.props.activateEditMode} />
         )
     }
 }

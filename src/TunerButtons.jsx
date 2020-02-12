@@ -10,7 +10,7 @@ class TunerButtons extends React.Component {
 
         return (
             <div className='buttonsBlock'>
-                <Set/>
+                <Set setCounter={this.props.setCounter} error={this.props.error}/>
             </div>
         )
 
