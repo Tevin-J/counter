@@ -1,6 +1,5 @@
 import React from 'react';
 import style from './App.css';
-import Button from "./Button";
 import Increment from "./Increment";
 import Reset from "./Reset";
 

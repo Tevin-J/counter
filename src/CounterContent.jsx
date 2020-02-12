@@ -4,7 +4,7 @@ import style from './App.css';
 class CounterContent extends React.Component {
     render = () => {
         let classForNumber = this.props.counterNumber<=this.props.minNumber ||
-            this.props.counterNumber>=this.props.maxNumber ? 'limit-number' : 'number';
+            this.props.counterNumber>=this.props.maxNumber || this.props.error ? 'limit-number' : 'number';
         let output;
         if (this.props.error) {
             output = 'enter correct values!'

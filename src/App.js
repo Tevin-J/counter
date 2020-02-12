@@ -1,10 +1,7 @@
 import React from 'react';
 import './App.css';
-import CounterContent from "./CounterContent";
-import CounterButtons from "./CounterButtons";
 import Counter from "./Counter";
 import CounterTuner from "./CounterTuner";
-
 
 class App extends React.Component {
     state = {
@@ -27,7 +24,6 @@ class App extends React.Component {
             }
         })
     };
-
     resetNumber = () => {
         this.setState({
             counterNumber: this.state.minNumber,
@@ -40,23 +36,25 @@ class App extends React.Component {
         })
     };
     changeMinValue = (minValue) => {
-        this.setValues(minValue, this.state.maxNumber)
+        this.setValues(+minValue, this.state.maxNumber)
     }
     changeMaxValue = (maxValue) => {
-        this.setValues(this.state.minNumber, maxValue)
+        this.setValues(this.state.minNumber, +maxValue)
     }
     activateEditMode = () => {
-        this.setState({isEditMode: true,
+        this.setState({
+            isEditMode: true,
             isIncDisabled: true,
             isResetDisabled: true
         })
     }
     deactivateEditMode = () => {
-        this.setState({isEditMode: false
+        this.setState({
+            isEditMode: false
             })
     }
     setValues = (minValue, maxValue) => {
-        if (minValue < 0 || minValue > maxValue || maxValue <= 0 || maxValue <= minValue) {
+        if (minValue < 0 || maxValue <= 0 || maxValue <= minValue) {
             this.setState({
                 error: true,
                 isIncDisabled: true,
@@ -75,13 +73,27 @@ class App extends React.Component {
         }
     }
     setCounter = () => {
-
         this.deactivateEditMode();
         this.setState({
             isIncDisabled: false,
             isResetDisabled: true,
             isEditMode: false
-        })
+        }, () => {this.saveState()})
+    }
+    componentDidMount() {
+        this.restoreState()
+    }
+    saveState = () => {
+        let stateAsString = JSON.stringify(this.state);
+        localStorage.setItem('counter-state', stateAsString)
+    }
+    restoreState = () => {
+        let state = this.state;
+        let stateAsString = localStorage.getItem('counter-state');
+        if (stateAsString != null) {
+            state = JSON.parse(stateAsString)
+        }
+        this.setState(state)
     }
     render = () => {
         return (

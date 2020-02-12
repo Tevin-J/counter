@@ -2,12 +2,8 @@ import React from 'react';
 import './App.css';
 import TunerContent from "./TunerContent";
 import TunerButtons from "./TunerButtons";
-import MaxValueTuner from "./MaxValueTuner";
-
 
 class CounterTuner extends React.Component {
-
-
 
     render = () => {
         return (

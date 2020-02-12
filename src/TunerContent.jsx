@@ -1,6 +1,4 @@
 import React from 'react';
-import style from './App.css';
-import TunerInput from "./TunerInput";
 import MaxValueTuner from "./MaxValueTuner";
 import MinValueTuner from "./MinValueTuner";
 
