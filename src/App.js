@@ -11,35 +11,41 @@ class App extends React.Component {
         isIncDisabled: false,
         isResetDisabled: true,
         isEditMode: false,
-        error: false
+        error: false,
+        incorrectMaxValue: false,
+        incorrectMinValue: false
     };
     increaseNumber = () => {
         this.setState({
             counterNumber: ++this.state.counterNumber
         }, () => {
-            if (this.state.counterNumber>=this.state.maxNumber) {
-                this.setState({counterNumber: this.state.maxNumber, isIncDisabled: true, isResetDisabled: false})
-            } else if (this.state.counterNumber > this.state.minNumber && this.state.counterNumber < this.state.maxNumber) {
-                this.setState({isResetDisabled: false, isIncDisabled: false})
-            }
+            this.saveState()
         })
+        if (this.state.counterNumber>=this.state.maxNumber) {
+            this.setState({counterNumber: this.state.maxNumber, isIncDisabled: true, isResetDisabled: false})
+        } else if (this.state.counterNumber > this.state.minNumber && this.state.counterNumber < this.state.maxNumber) {
+            this.setState({isResetDisabled: false, isIncDisabled: false})
+        }
     };
     resetNumber = () => {
         this.setState({
             counterNumber: this.state.minNumber,
+            isIncDisabled: false,
+            isResetDisabled: true
         }, () => {
-            if (this.state.counterNumber<=this.state.minNumber) {
-                this.setState({isResetDisabled: true, isIncDisabled: false})
-            } else if (this.state.counterNumber > this.state.min && this.state.counterNumber < this.state.maxNumber) {
-                this.setState({isResetDisabled: false, isIncDisabled: false})
-            }
+            this.saveState()
         })
+        if (this.state.counterNumber<=this.state.minNumber) {
+            this.setState({isResetDisabled: true, isIncDisabled: false})
+        } else if (this.state.counterNumber > this.state.min && this.state.counterNumber < this.state.maxNumber) {
+            this.setState({isResetDisabled: false, isIncDisabled: false})
+        }
     };
     changeMinValue = (minValue) => {
-        this.setValues(+minValue, this.state.maxNumber)
+        this.setValues(minValue, this.state.maxNumber)
     }
     changeMaxValue = (maxValue) => {
-        this.setValues(this.state.minNumber, +maxValue)
+        this.setValues(this.state.minNumber, maxValue)
     }
     activateEditMode = () => {
         this.setState({
@@ -54,11 +60,24 @@ class App extends React.Component {
             })
     }
     setValues = (minValue, maxValue) => {
-        if (minValue < 0 || maxValue <= 0 || maxValue <= minValue) {
+        if (+minValue < 0 || +minValue >= +maxValue || +maxValue <= 0 || maxValue === null) {
+            if ((+minValue < 0 || +minValue > +maxValue) && +maxValue > 0) {
+                this.setState({incorrectMinValue: true, incorrectMaxValue: false})
+            } else if ((+maxValue <= 0 && +minValue >= 0) || (+maxValue < +minValue && +minValue >= 0) || maxValue === null) {
+                this.setState({incorrectMinValue: false, incorrectMaxValue: true})
+            } else if (+minValue === +maxValue || (+minValue < 0 && +maxValue <= 0) ||
+                ((+minValue < 0 || +minValue > +maxValue) && maxValue === null )) {
+                this.setState({incorrectMinValue: true, incorrectMaxValue: true})
+            } else {
+                this.setState({incorrectMinValue: false, incorrectMaxValue: false})
+            }
             this.setState({
                 error: true,
                 isIncDisabled: true,
-                isResetDisabled: true
+                isResetDisabled: true,
+                minNumber: minValue,
+                maxNumber: maxValue,
+                counterNumber: minValue
             })
         } else {
             this.setState({
@@ -68,7 +87,9 @@ class App extends React.Component {
                 minNumber: minValue,
                 maxNumber: maxValue,
                 counterNumber: minValue,
-                error: false
+                error: false,
+                incorrectMaxValue: false,
+                incorrectMinValue: false
             })
         }
     }
