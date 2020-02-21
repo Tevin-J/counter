@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './App.css';
+import './App.css';
 
 class Button extends React.Component {
 

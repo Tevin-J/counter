@@ -15,7 +15,7 @@ class Counter extends React.Component {
                                 error={this.props.state.error}/>
                 <CounterButtons increaseNumber={this.props.increaseNumber} resetNumber={this.props.resetNumber}
                                 isIncDisabled={this.props.state.isIncDisabled} isResetDisabled={this.props.state.isResetDisabled}
-                />
+                                switchCounterMode={this.props.switchCounterMode}/>
             </div>
         );
     }

@@ -15,7 +15,10 @@ class App extends React.Component {
         incorrectMaxValue: false,
         incorrectMinValue: false
     };
-    increaseNumber = () => {
+    switchCounterMode = () => { //метод переключения режимов счетчика
+        this.setState({isEditMode: true})
+    }
+    increaseNumber = () => { //метод увеличения счетчика при нажатии на кнопку inc
         this.setState({
             counterNumber: ++this.state.counterNumber
         }, () => {
@@ -27,7 +30,7 @@ class App extends React.Component {
             this.setState({isResetDisabled: false, isIncDisabled: false})
         }
     };
-    resetNumber = () => {
+    resetNumber = () => { //метод обнуления счетчика при нажатии на кнопку reset
         this.setState({
             counterNumber: this.state.minNumber,
             isIncDisabled: false,
@@ -41,32 +44,32 @@ class App extends React.Component {
             this.setState({isResetDisabled: false, isIncDisabled: false})
         }
     };
-    changeMinValue = (minValue) => {
+    changeMinValue = (minValue) => { //метод работающий во время изменения минимального значения счетчика
         this.setValues(minValue, this.state.maxNumber)
     }
-    changeMaxValue = (maxValue) => {
+    changeMaxValue = (maxValue) => { //метод работающий во время изменения максимального значения счетчика
         this.setValues(this.state.minNumber, maxValue)
     }
-    activateEditMode = () => {
+    /*activateEditMode = () => { //этот метод необходим только для версии счетчика без переключения режимов
         this.setState({
             isEditMode: true,
             isIncDisabled: true,
             isResetDisabled: true
         })
-    }
-    deactivateEditMode = () => {
+    }*/
+    deactivateEditMode = () => { //метод для переключения счетчика из режима настройки в режим счетчик
         this.setState({
             isEditMode: false
             })
     }
-    setValues = (minValue, maxValue) => {
+    setValues = (minValue, maxValue) => { //метод для задания значений счетчика в стейт
         if (+minValue < 0 || +minValue >= +maxValue || +maxValue <= 0 || maxValue === null) {
             if ((+minValue < 0 || +minValue > +maxValue) && +maxValue > 0) {
                 this.setState({incorrectMinValue: true, incorrectMaxValue: false})
             } else if ((+maxValue <= 0 && +minValue >= 0) || (+maxValue < +minValue && +minValue >= 0) || maxValue === null) {
                 this.setState({incorrectMinValue: false, incorrectMaxValue: true})
             } else if (+minValue === +maxValue || (+minValue < 0 && +maxValue <= 0) ||
-                ((+minValue < 0 || +minValue > +maxValue) && maxValue === null )) {
+                ((+minValue < 0 || +minValue > +maxValue) && maxValue ===null )) {
                 this.setState({incorrectMinValue: true, incorrectMaxValue: true})
             } else {
                 this.setState({incorrectMinValue: false, incorrectMaxValue: false})
@@ -93,7 +96,7 @@ class App extends React.Component {
             })
         }
     }
-    setCounter = () => {
+    setCounter = () => { //метод нажатия на кнопку set в настройщике счетчика
         this.deactivateEditMode();
         this.setState({
             isIncDisabled: false,
@@ -119,9 +122,14 @@ class App extends React.Component {
     render = () => {
         return (
             <div className="app">
-               <CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
-                             activateEditMode={this.activateEditMode} setCounter={this.setCounter}/>
-               <Counter state={this.state} increaseNumber={this.increaseNumber} resetNumber={this.resetNumber}/>
+                {this.state.isEditMode
+                    ? <CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
+                                  /*activateEditMode={this.activateEditMode}*/ setCounter={this.setCounter}/>
+                    : <Counter state={this.state} increaseNumber={this.increaseNumber} resetNumber={this.resetNumber} switchCounterMode={this.switchCounterMode}/>
+                }
+                {/*<CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
+                              activateEditMode={this.activateEditMode} setCounter={this.setCounter}/>
+                <Counter state={this.state} increaseNumber={this.increaseNumber} resetNumber={this.resetNumber} />*/} {/*для версии счетчика без переключения режимов*/}
             </div>
         );
     }
