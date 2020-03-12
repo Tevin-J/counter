@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import CounterContent from "./CounterContent";
 import CounterButtons from "./CounterButtons";
 

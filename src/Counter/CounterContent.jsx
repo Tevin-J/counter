@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
+import {connect} from "react-redux";
 
 class CounterContent extends React.Component {
     render = () => {
@@ -23,5 +24,13 @@ class CounterContent extends React.Component {
 
     }
 }
-
-export default CounterContent;
+const mapStateToProps = (state) => {
+    return {
+        counterNumber: state.counterNumber,
+        minNumber: state.minNumber,
+        maxNumber: state.maxNumber,
+        error: state.error
+    }
+}
+const ConnectedCounterContent = connect(mapStateToProps, null)(CounterContent)
+export default ConnectedCounterContent;

@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import Counter from "./Counter";
-import CounterTuner from "./CounterTuner";
+import Counter from "./Counter/Counter";
+import CounterTuner from "./CounterTuner/CounterTuner";
+import {connect} from "react-redux";
 
 class App extends React.Component {
     state = {
@@ -18,7 +19,7 @@ class App extends React.Component {
     switchCounterMode = () => { //метод переключения режимов счетчика
         this.setState({isEditMode: true})
     }
-    increaseNumber = () => { //метод увеличения счетчика при нажатии на кнопку inc
+    /*increaseNumber = () => { //метод увеличения счетчика при нажатии на кнопку inc
         this.setState({
             counterNumber: ++this.state.counterNumber
         }, () => {
@@ -29,8 +30,8 @@ class App extends React.Component {
         } else if (this.state.counterNumber > this.state.minNumber && this.state.counterNumber < this.state.maxNumber) {
             this.setState({isResetDisabled: false, isIncDisabled: false})
         }
-    };
-    resetNumber = () => { //метод обнуления счетчика при нажатии на кнопку reset
+    };*/
+    /*resetNumber = () => { //метод обнуления счетчика при нажатии на кнопку reset
         this.setState({
             counterNumber: this.state.minNumber,
             isIncDisabled: false,
@@ -43,7 +44,7 @@ class App extends React.Component {
         } else if (this.state.counterNumber > this.state.min && this.state.counterNumber < this.state.maxNumber) {
             this.setState({isResetDisabled: false, isIncDisabled: false})
         }
-    };
+    };*/
     changeMinValue = (minValue) => { //метод работающий во время изменения минимального значения счетчика
         this.setValues(minValue, this.state.maxNumber)
     }
@@ -106,6 +107,7 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.restoreState()
+
     }
     saveState = () => {
         let stateAsString = JSON.stringify(this.state);
@@ -122,10 +124,10 @@ class App extends React.Component {
     render = () => {
         return (
             <div className="app">
-                {this.state.isEditMode
+                {this.props.isEditMode
                     ? <CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
                                   /*activateEditMode={this.activateEditMode}*/ setCounter={this.setCounter}/>
-                    : <Counter state={this.state} increaseNumber={this.increaseNumber} resetNumber={this.resetNumber} switchCounterMode={this.switchCounterMode}/>
+                    : <Counter state={this.state} /*increaseNumber={this.increaseNumber} resetNumber={this.resetNumber}*/ switchCounterMode={this.switchCounterMode}/>
                 }
                 {/*<CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
                               activateEditMode={this.activateEditMode} setCounter={this.setCounter}/>
@@ -134,6 +136,11 @@ class App extends React.Component {
         );
     }
 }
-
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        isEditMode: state.isEditMode
+    }
+}
+const ConnectedApp = connect(mapStateToProps, null)(App)
+export default ConnectedApp;
 

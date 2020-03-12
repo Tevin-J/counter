@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
 import Increment from "./Increment";
 import Reset from "./Reset";
 import SwitchCounterMode from "./SwitchCounterMode";
