@@ -3,6 +3,15 @@ import './App.css';
 import Counter from "./Counter/Counter";
 import CounterTuner from "./CounterTuner/CounterTuner";
 import {connect} from "react-redux";
+import {
+    initStateAC,
+    setValuesFunc1AC,
+    setValuesFunc2AC,
+    valuesFunc1AC,
+    valuesFunc2AC,
+    valuesFunc3AC,
+    valuesFunc4AC
+} from "./reducer";
 
 class App extends React.Component {
     state = {
@@ -16,9 +25,9 @@ class App extends React.Component {
         incorrectMaxValue: false,
         incorrectMinValue: false
     };
-    switchCounterMode = () => { //метод переключения режимов счетчика
+    /*switchCounterMode = () => { //метод переключения режимов счетчика
         this.setState({isEditMode: true})
-    }
+    }*/
     /*increaseNumber = () => { //метод увеличения счетчика при нажатии на кнопку inc
         this.setState({
             counterNumber: ++this.state.counterNumber
@@ -46,10 +55,12 @@ class App extends React.Component {
         }
     };*/
     changeMinValue = (minValue) => { //метод работающий во время изменения минимального значения счетчика
-        this.setValues(minValue, this.state.maxNumber)
+        this.setValues(minValue, this.props.state.maxNumber)
+/*        this.saveState()*/
     }
     changeMaxValue = (maxValue) => { //метод работающий во время изменения максимального значения счетчика
-        this.setValues(this.state.minNumber, maxValue)
+        this.setValues(this.props.state.minNumber, maxValue)
+/*        this.saveState()*/
     }
     /*activateEditMode = () => { //этот метод необходим только для версии счетчика без переключения режимов
         this.setState({
@@ -58,33 +69,35 @@ class App extends React.Component {
             isResetDisabled: true
         })
     }*/
-    deactivateEditMode = () => { //метод для переключения счетчика из режима настройки в режим счетчик
+    /*deactivateEditMode = () => { //метод для переключения счетчика из режима настройки в режим счетчик
         this.setState({
             isEditMode: false
             })
-    }
+    }*/
     setValues = (minValue, maxValue) => { //метод для задания значений счетчика в стейт
         if (+minValue < 0 || +minValue >= +maxValue || +maxValue <= 0 || maxValue === null) {
             if ((+minValue < 0 || +minValue > +maxValue) && +maxValue > 0) {
-                this.setState({incorrectMinValue: true, incorrectMaxValue: false})
+                this.props.valuesFunc1()
             } else if ((+maxValue <= 0 && +minValue >= 0) || (+maxValue < +minValue && +minValue >= 0) || maxValue === null) {
-                this.setState({incorrectMinValue: false, incorrectMaxValue: true})
-            } else if (+minValue === +maxValue || (+minValue < 0 && +maxValue <= 0) ||
-                ((+minValue < 0 || +minValue > +maxValue) && maxValue ===null )) {
-                this.setState({incorrectMinValue: true, incorrectMaxValue: true})
+                this.props.valuesFunc2()
+            } else if (+minValue === +maxValue || (+minValue < 0 && +maxValue <= 0)
+                || ((+minValue < 0 || +minValue > +maxValue) && maxValue===null )) {
+                this.props.valuesFunc3()
             } else {
-                this.setState({incorrectMinValue: false, incorrectMaxValue: false})
+                this.props.valuesFunc4()
             }
-            this.setState({
+            this.props.setValuesFunc1(+minValue, +maxValue)
+/*            this.setState({
                 error: true,
                 isIncDisabled: true,
                 isResetDisabled: true,
                 minNumber: minValue,
                 maxNumber: maxValue,
                 counterNumber: minValue
-            })
+            })*/
         } else {
-            this.setState({
+            this.props.setValuesFunc2(+minValue, +maxValue)
+/*            this.setState({
                 isIncDisabled: true,
                 isResetDisabled: true,
                 isEditMode: true,
@@ -94,40 +107,39 @@ class App extends React.Component {
                 error: false,
                 incorrectMaxValue: false,
                 incorrectMinValue: false
-            })
+            })*/
         }
     }
-    setCounter = () => { //метод нажатия на кнопку set в настройщике счетчика
+    /*setCounter = () => { //метод нажатия на кнопку set в настройщике счетчика
         this.deactivateEditMode();
         this.setState({
             isIncDisabled: false,
             isResetDisabled: true,
             isEditMode: false
         }, () => {this.saveState()})
-    }
+    }*/
     componentDidMount() {
         this.restoreState()
-
     }
     saveState = () => {
-        let stateAsString = JSON.stringify(this.state);
+        let stateAsString = JSON.stringify(this.props.state);
         localStorage.setItem('counter-state', stateAsString)
     }
     restoreState = () => {
-        let state = this.state;
+        let initState = this.props.state;
         let stateAsString = localStorage.getItem('counter-state');
         if (stateAsString != null) {
-            state = JSON.parse(stateAsString)
+            initState = JSON.parse(stateAsString)
         }
-        this.setState(state)
+        // this.props.initState(initState)
     }
     render = () => {
         return (
             <div className="app">
                 {this.props.isEditMode
-                    ? <CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
+                    ? <CounterTuner state={this.props.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
                                   /*activateEditMode={this.activateEditMode}*/ setCounter={this.setCounter}/>
-                    : <Counter state={this.state} /*increaseNumber={this.increaseNumber} resetNumber={this.resetNumber}*/ switchCounterMode={this.switchCounterMode}/>
+                    : <Counter state={this.props.state} /*increaseNumber={this.increaseNumber} resetNumber={this.resetNumber}*/ switchCounterMode={this.switchCounterMode}/>
                 }
                 {/*<CounterTuner state={this.state} changeMinValue={this.changeMinValue} changeMaxValue={this.changeMaxValue}
                               activateEditMode={this.activateEditMode} setCounter={this.setCounter}/>
@@ -138,9 +150,37 @@ class App extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
-        isEditMode: state.isEditMode
+        state: state,
+        isEditMode: state.isEditMode,
+        minNumber: state.minNumber,
+        maxNumber: state.maxNumber
     }
 }
-const ConnectedApp = connect(mapStateToProps, null)(App)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        valuesFunc1() {
+            dispatch(valuesFunc1AC())
+        },
+        valuesFunc2() {
+            dispatch(valuesFunc2AC())
+        },
+        valuesFunc3() {
+            dispatch(valuesFunc3AC())
+        },
+        valuesFunc4() {
+            dispatch(valuesFunc4AC())
+        },
+        setValuesFunc1(minValue, maxValue) {
+            dispatch(setValuesFunc1AC(minValue, maxValue))
+        },
+        setValuesFunc2(minValue, maxValue) {
+            dispatch(setValuesFunc2AC(minValue, maxValue))
+        },
+/*        initState(initState) {
+            dispatch(initStateAC(initState))
+        }*/
+    }
+}
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 export default ConnectedApp;
 

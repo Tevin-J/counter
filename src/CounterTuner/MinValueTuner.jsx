@@ -1,16 +1,22 @@
 import React from 'react';
 import TunerInput from "./TunerInput";
+import {connect} from "react-redux";
 
 class MinValueTuner extends React.Component {
-    state = {
-        title: 'min value: '
-    }
+    inputTitle = this.props.input.title
     render = () => {
         return (
-            <TunerInput title={this.state.title} value={this.props.state.minNumber} changeValue={this.props.changeMinValue}
-                        /*activateEditMode={this.props.activateEditMode}*/ incorrectMinValue={this.props.state.incorrectMinValue} />
+            <TunerInput title={this.inputTitle} value={this.props.minNumber} changeValue={this.props.changeMinValue}
+                        /*activateEditMode={this.props.activateEditMode}*/ incorrectMinValue={this.props.incorrectMinValue} />
         )
     }
 }
-
-export default MinValueTuner;
+const mapStateToProps = (state) => {
+    return {
+        input: state.inputs[1],
+        minNumber: state.minNumber,
+        incorrectMinValue: state.incorrectMinValue
+    }
+}
+const connectMinValueTuner = connect(mapStateToProps, null)(MinValueTuner)
+export default connectMinValueTuner;

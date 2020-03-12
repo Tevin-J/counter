@@ -2,8 +2,6 @@ import React from 'react';
 import '../App.css';
 import Set from "./Set";
 
-
-
 class TunerButtons extends React.Component {
 
     render = () => {
