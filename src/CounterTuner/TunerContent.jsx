@@ -8,10 +8,8 @@ class TunerContent extends React.Component {
         return (
         <div className='contentBlock'>
             <div className='tunerContent'>
-                <MaxValueTuner state={this.props.state} changeMaxValue={this.props.changeMaxValue}
-                               /*activateEditMode={this.props.activateEditMode}*/ />
-                <MinValueTuner state={this.props.state} changeMinValue={this.props.changeMinValue}
-                               /*activateEditMode={this.props.activateEditMode}*/ />
+                <MaxValueTuner state={this.props.state} changeMaxValue={this.props.changeMaxValue}/>
+                <MinValueTuner state={this.props.state} changeMinValue={this.props.changeMinValue}/>
             </div>
         </div>
         )

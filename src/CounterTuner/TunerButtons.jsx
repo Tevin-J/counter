@@ -8,7 +8,7 @@ class TunerButtons extends React.Component {
 
         return (
             <div className='buttonsBlock'>
-                <Set setCounter={this.props.setCounter} error={this.props.error}/>
+                <Set saveState={this.props.saveState} setCounter={this.props.setCounter} error={this.props.error}/>
             </div>
         )
     }

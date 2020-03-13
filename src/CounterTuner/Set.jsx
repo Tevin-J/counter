@@ -5,7 +5,10 @@ import {setCounterAC} from "../reducer";
 
 class Set extends React.Component {
     buttonTitle = this.props.button.title
-    setCounter = () => this.props.setCounter()
+    setCounter = () => {
+        this.props.setCounter()
+        this.props.saveState()
+    }
 
     render = () => {
         return (

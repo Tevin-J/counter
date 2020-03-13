@@ -1,9 +1,5 @@
 export const INCREASE_NUMBER = 'INCREASE_NUMBER'
 export const RESET_NUMBER = 'RESET_NUMBER'
-export const DISABLE_FUNC_1 = 'DISABLE_FUNC_1'
-export const DISABLE_FUNC_2 = 'DISABLE_FUNC_2'
-export const DISABLE_FUNC_3 = 'DISABLE_FUNC_3'
-export const DISABLE_FUNC_4 = 'DISABLE_FUNC_4'
 export const SWITCH_COUNTER_MODE = 'SWITCH_COUNTER_MODE'
 export const SET_COUNTER = 'SET_COUNTER'
 export const VALUES_FUNC_1 = 'VALUES_FUNC_1'
@@ -38,45 +34,55 @@ const initialState = {
 }
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+
         case INIT_STATE:
             return {
                 ...action.initState
             }
         case INCREASE_NUMBER:
-            debugger
-            return {
-                ...state,
-                counterNumber: 1 + state.counterNumber
+            if (state.counterNumber >= state.maxNumber - 1) {
+                return {
+                    ...state,
+                    isIncDisabled: true,
+                    isResetDisabled: false,
+                    counterNumber: +state.counterNumber + 1
+                }
+            } else if (state.counterNumber > state.minNumber && state.counterNumber < state.maxNumber) {
+                return {
+                    ...state,
+                    isResetDisabled: false,
+                    isIncDisabled: false,
+                    counterNumber: +state.counterNumber + 1
+                }
+            } else {
+                return {
+                    ...state,
+                    isResetDisabled: false,
+                    isIncDisabled: false,
+                    counterNumber: +state.counterNumber + 1
+                }
             }
+
         case RESET_NUMBER:
-            return {
-                ...state,
-                counterNumber: state.minNumber
-            }
-        case DISABLE_FUNC_1:
-            return {
-                ...state,
-                counterNumber: state.maxNumber,
-                isIncDisabled: true,
-                isResetDisabled: false
-            }
-        case DISABLE_FUNC_2:
-            return {
-                ...state,
-                isResetDisabled: false,
-                isIncDisabled: false
-            }
-        case DISABLE_FUNC_3:
-            return {
-                ...state,
-                isResetDisabled: true,
-                isIncDisabled: false
-            }
-        case DISABLE_FUNC_4:
-            return {
-                ...state,
-                isResetDisabled: false,
-                isIncDisabled: false
+            if (state.counterNumber <= state.minNumber) {
+                return {
+                    ...state,
+                    isResetDisabled: true,
+                }
+            } else if (state.counterNumber > state.minNumber && state.counterNumber < state.maxNumber) {
+                return {
+                    ...state,
+                    isResetDisabled: true,
+                    isIncDisabled: false,
+                    counterNumber: state.minNumber
+                }
+            } else {
+                return {
+                    ...state,
+                    isResetDisabled: true,
+                    isIncDisabled: false,
+                    counterNumber: state.minNumber
+                }
             }
         case SWITCH_COUNTER_MODE:
             return {
@@ -142,10 +148,6 @@ const reducer = (state = initialState, action) => {
 }
 export const increaseNumberAC = () => {return {type: INCREASE_NUMBER}}
 export const resetNumberAC = () => {return {type: RESET_NUMBER}}
-export const disableFunc1AC = () => {return {type: DISABLE_FUNC_1}}
-export const disableFunc2AC = () => {return {type: DISABLE_FUNC_2}}
-export const disableFunc3AC = () => {return {type: DISABLE_FUNC_3}}
-export const disableFunc4AC = () => {return {type: DISABLE_FUNC_4}}
 export const switchCounterModeAC = () => {return {type: SWITCH_COUNTER_MODE}}
 export const setCounterAC = () => {return {type: SET_COUNTER}}
 export const valuesFunc1AC = () => {return {type: VALUES_FUNC_1}}

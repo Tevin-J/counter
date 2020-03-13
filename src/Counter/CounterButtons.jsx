@@ -11,8 +11,8 @@ class CounterButtons extends React.Component {
 
         return (
             <div className='buttonsBlock'>
-                <Increment increaseNumber={this.props.increaseNumber} isIncDisabled={this.props.isIncDisabled}/>
-                <Reset resetNumber={this.props.resetNumber} isResetDisabled={this.props.isResetDisabled}/>
+                <Increment saveState={this.props.saveState} increaseNumber={this.props.increaseNumber} isIncDisabled={this.props.isIncDisabled} isResetDisabled={this.props.isResetDisabled}/>
+                <Reset saveState={this.props.saveState} resetNumber={this.props.resetNumber} isIncDisabled={this.props.isIncDisabled}isResetDisabled={this.props.isResetDisabled}/>
                 <SwitchCounterMode  switchCounterMode={this.props.switchCounterMode}/>
             </div>
         )

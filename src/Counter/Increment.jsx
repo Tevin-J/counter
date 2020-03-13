@@ -1,17 +1,20 @@
 import React from 'react';
 import Button from "../Common/Button";
 import {connect} from "react-redux";
-import {disableFunc1AC, disableFunc2AC, increaseNumberAC} from "../reducer";
+import {increaseNumberAC} from "../reducer";
 
 class Increment extends React.Component {
-    buttonTitle = this.props.button.title
+    buttonTitle = this.props.button.title;
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props !== prevProps) {
+            this.props.saveState()
+        }
+    }
+
+
     increaseNumber = () => {
         this.props.increaseNumber()
-        if (this.props.counterNumber>=this.props.maxNumber) {
-            this.props.disableFunc1()
-        } else if (this.props.counterNumber > this.props.minNumber && this.props.counterNumber < this.props.maxNumber) {
-            this.props.disableFunc2()
-        }
     }
 
     render = () => {
@@ -33,12 +36,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         increaseNumber () {
             dispatch(increaseNumberAC())
-        },
-        disableFunc1 () {
-            dispatch(disableFunc1AC())
-        },
-        disableFunc2 () {
-            dispatch(disableFunc2AC())
         }
     }
 }

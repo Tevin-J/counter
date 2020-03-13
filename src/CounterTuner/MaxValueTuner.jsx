@@ -4,11 +4,10 @@ import {connect} from "react-redux";
 
 class MaxValueTuner extends React.Component {
     inputTitle = this.props.input.title
-/*    changeMaxValue = () => this.props.changeMaxValue()*/
     render = () => {
         return (
             <TunerInput title={this.inputTitle} value={this.props.maxNumber} changeValue={this.props.changeMaxValue}
-                        /*activateEditMode={this.props.activateEditMode}*/ incorrectMaxValue={this.props.incorrectMaxValue}/>
+                incorrectMaxValue={this.props.incorrectMaxValue}/>
         )
     }
 }
